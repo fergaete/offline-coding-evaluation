@@ -18,17 +18,25 @@ public final class ModifyHandler implements CommandHandlerInterface {
     }
 
     public ProductDTO handler(ModifyCommand command) {
+        log.info("ModifyHandler.handler() called");
+        log.info("ModifyHandler.handler() command: {}", command);
+        log.info("ModifyHandler.handler() find product");
 
         Product product = _productService.findOneByProductId(command.productId());
+
+        log.info("ModifyHandler.handler() product: {}", product);
 
         product.modify(
                 command.name(),
                 command.brand(),
                 command.size(),
-                command.price()
+                command.price(),
+                command.image()
         );
 
         _productService.save(product);
+
+        log.info("ModifyHandler.handler() product modify: {}", product);
 
         return _productService.findBySKU(product.getSku());
     }

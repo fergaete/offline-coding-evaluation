@@ -18,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +103,7 @@ public class ProductService implements ProductRepositoryInterface {
 
     @Override
     public ProductDTO findBySKU(SKU sku) throws EntityNotFoundException {
+        log.info("Product findBySKU called  for sku: " + sku);
         Product product = _productJPARepository.findBySku(sku)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("No se ha encontrado un producto con SKU: %s", sku.toString())));
 
@@ -109,11 +112,20 @@ public class ProductService implements ProductRepositoryInterface {
 
     @Override
     public void save(Product product) {
-        _productJPARepository.saveAndFlush(product);
+        log.info("Saving product: {}", product);
+        try {
+            _productJPARepository.saveAndFlush(product);
+        } catch (Exception e) {
+            log.error("Error saving product: {}", product);
+            log.error(e.getMessage());
+        }
+        log.info("Product saved");
     }
 
     @Override
     public void delete(Product product) {
+        log.warn("Deleting product: {}", product);
         _productJPARepository.delete(product);
+        log.warn("Product deleted");
     }
 }

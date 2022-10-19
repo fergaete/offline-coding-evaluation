@@ -47,6 +47,8 @@ public class PostController extends BaseController {
     public ResponseEntity<?> post(
             @Valid @RequestBody CreateForm form
     ) {
+        log.info("Posting productos");
+        log.info("Form: {}", form);
         try {
             return this.createOKResponse(
                     _handler.handler(
@@ -55,7 +57,8 @@ public class PostController extends BaseController {
                                 form.getBrand(),
                                 form.getSize(),
                                 form.getSku(),
-                                form.getPrice()
+                                form.getPrice(),
+                                form.getImage()
                         )
                     )
             );

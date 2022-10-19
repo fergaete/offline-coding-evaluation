@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -45,4 +46,9 @@ public class ModifyForm {
     @NotNull(message = "El atributo Price no puede ser vacío.")
     @Positive
     private Double price;
+
+    @NotNull(message = "El atributo Image no puede ser vacío.")
+    @NotBlank
+    @URL
+    private String image;
 }

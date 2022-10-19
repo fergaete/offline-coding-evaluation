@@ -15,7 +15,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="mserv-producto" />
+          <factory-entry name="mserv-producto" value="d13cf271-4a16-43f4-8680-713c25221d5f" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>

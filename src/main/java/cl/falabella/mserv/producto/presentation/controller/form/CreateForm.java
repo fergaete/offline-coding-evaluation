@@ -7,13 +7,14 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.*;
 
 @Getter
 @Setter
 @ToString
-@JsonPropertyOrder({"name", "brand", "price", "size", "sku"})
+@JsonPropertyOrder({"name", "brand", "price", "size", "sku", "image"})
 @ApiModel(description = "Create form")
 public class CreateForm {
 
@@ -46,4 +47,9 @@ public class CreateForm {
     @NotNull(message = "El atributo Price no puede ser vacío.")
     @Positive
     private Double price;
+
+    @NotNull(message = "El atributo Image no puede ser vacío.")
+    @NotBlank
+    @URL
+    private String image;
 }

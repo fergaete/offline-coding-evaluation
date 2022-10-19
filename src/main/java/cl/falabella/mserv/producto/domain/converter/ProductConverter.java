@@ -7,6 +7,9 @@ import cl.falabella.mserv.producto.domain.model.Product;
 import cl.falabella.mserv.producto.infrastructure.shared.HateoasUtils;
 import cl.falabella.mserv.producto.presentation.controller.FindAllController;
 import cl.falabella.mserv.producto.presentation.controller.FindByIdController;
+import cl.falabella.mserv.producto.presentation.controller.PostController;
+import cl.falabella.mserv.producto.presentation.controller.PutController;
+import cl.falabella.mserv.producto.presentation.controller.form.CreateForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.Link;
@@ -46,12 +49,18 @@ public class ProductConverter implements Converter<Product, ProductDTO> {
     }
 
     private static Map<String, String> _createLinks(Product product) {
-        Link self       = linkTo(methodOn(FindByIdController.class).findById(product.getId().toString())).withSelfRel();
-        Link get        = linkTo(methodOn(FindAllController.class).findAll(PaginatedRepresentation.DEFAULT_PAGE, PaginatedRepresentation.DEFAULT_SIZE)).withRel("products");
+        Link all  = linkTo(methodOn(FindAllController.class).findAll(PaginatedRepresentation.DEFAULT_PAGE, PaginatedRepresentation.DEFAULT_SIZE)).withRel("all");
+        Link self = linkTo(methodOn(FindByIdController.class).findById(product.getId().toString())).withSelfRel();
+        Link post  = linkTo(methodOn(PostController.class).post(new CreateForm())).withRel("post");
+        Link put  = linkTo(methodOn(FindByIdController.class).findById(product.getId().toString())).withRel("put");
+        Link delete  = linkTo(methodOn(FindByIdController.class).findById(product.getId().toString())).withRel("delete");
 
         Map<String, String> links = new LinkedHashMap<>();
+        links.put(all.getRel().value(), WITHOUT_PORT ? HateoasUtils.removePort(all.getHref()) : all.getHref());
         links.put(self.getRel().value(), WITHOUT_PORT ? HateoasUtils.removePort(self.getHref()) : self.getHref());
-        links.put(get.getRel().value(), WITHOUT_PORT ? HateoasUtils.removePort(get.getHref()) : get.getHref());
+        links.put(post.getRel().value(), WITHOUT_PORT ? HateoasUtils.removePort(post.getHref()) : post.getHref());
+        links.put(put.getRel().value(), WITHOUT_PORT ? HateoasUtils.removePort(put.getHref()) : put.getHref());
+        links.put(delete.getRel().value(), WITHOUT_PORT ? HateoasUtils.removePort(delete.getHref()) : delete.getHref());
 
         return links;
     }

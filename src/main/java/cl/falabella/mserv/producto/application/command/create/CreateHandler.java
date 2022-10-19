@@ -5,6 +5,7 @@ import cl.falabella.mserv.producto.application.service.ProductService;
 import cl.falabella.mserv.producto.domain.DTO.ProductDTO;
 import cl.falabella.mserv.producto.domain.model.Product;
 import cl.falabella.mserv.producto.domain.repository.UniqueSKUSpecificationInterface;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,25 +13,36 @@ import org.springframework.stereotype.Service;
 @Service
 public final class CreateHandler implements CommandHandlerInterface {
 
-    private final ProductService _productService;
-    private final UniqueSKUSpecificationInterface _uniqueSKUSpecification;
+    private final @NonNull ProductService _productService;
+    private final @NonNull UniqueSKUSpecificationInterface _uniqueSKUSpecification;
 
-    public CreateHandler(ProductService productService, UniqueSKUSpecificationInterface uniqueSKUSpecification) {
+    public CreateHandler(
+            @NonNull ProductService productService,
+            @NonNull UniqueSKUSpecificationInterface uniqueSKUSpecification
+    ) {
         _productService = productService;
         _uniqueSKUSpecification = uniqueSKUSpecification;
     }
 
     public ProductDTO handler(CreateCommand command) {
-        _productService.save(
-                new Product(
-                        command.name(),
-                        command.brand(),
-                        command.size(),
-                        command.sku(),
-                        command.price(),
-                        _uniqueSKUSpecification
-                )
+        log.info("CreateHandler.handler() called");
+        log.info("CreateHandler.handler() command: {}", command);
+
+        Product product = new Product(
+                command.name(),
+                command.brand(),
+                command.size(),
+                command.sku(),
+                command.price(),
+                command.image(),
+                _uniqueSKUSpecification
         );
+
+        log.info("CreateHandler.handler() product: {}", product);
+
+        _productService.save(product);
+
+        log.info("CreateHandler.handler() command finished");
 
         return _productService.findBySKU(command.sku());
     }

@@ -22,6 +22,7 @@ import java.util.UUID;
         "brand",
         "size",
         "price",
+        "image",
         "createdAt",
         "updatedAt",
         "_links",
@@ -56,19 +57,23 @@ public class ProductDTO implements Serializable {
     @ApiModelProperty(notes = "Price", position = 6)
     private Double price;
 
+    @JsonProperty("image")
+    @ApiModelProperty(notes = "Image", position = 7)
+    private String image;
+
     @JsonProperty("createdAt")
-    @ApiModelProperty(notes = "Created at", position = 7)
+    @ApiModelProperty(notes = "Created at", position = 8)
     private LocalDateTime createdAt;
 
     @JsonProperty("updatedAt")
-    @ApiModelProperty(notes = "Updated at", position = 8)
+    @ApiModelProperty(notes = "Updated at", position = 9)
     private LocalDateTime updatedAt;
 
     @JsonProperty("_links")
-    @ApiModelProperty(notes = "Links", position = 9)
+    @ApiModelProperty(notes = "Links", position = 10)
     private Map<String, String> _links;
 
     @JsonProperty("_embedded")
-    @ApiModelProperty(notes = "Embedded", position = 10)
+    @ApiModelProperty(notes = "Embedded", position = 11)
     private Map<String, Object> _embedded;
 }

@@ -57,7 +57,8 @@ public class PutController extends BaseController {
                                 form.getName(),
                                 form.getBrand(),
                                 form.getSize(),
-                                form.getPrice()
+                                form.getPrice(),
+                                form.getImage()
                         )
                     )
             );

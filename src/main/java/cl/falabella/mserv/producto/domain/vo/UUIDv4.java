@@ -1,21 +1,20 @@
 package cl.falabella.mserv.producto.domain.vo;
 
 import cl.falabella.mserv.producto.domain.exception.DomainException;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
-
-import java.util.Objects;
+import lombok.NonNull;
 import java.util.regex.Pattern;
 
 @Getter
-@ToString
-public class UUIDv4 {
+@EqualsAndHashCode
+public class UUIDv4 implements ValueObject {
 
     private static final Pattern UUID_PATTERN = Pattern.compile("[0-9A-Za-z]{8}-[0-9A-Za-z]{4}-4[0-9A-Za-z]{3}-[89ABab][0-9A-Za-z]{3}-[0-9A-Za-z]{12}");
-    private final String _value;
+    private final @NonNull String _value;
 
-    public UUIDv4(String value) {
-        if (value == null || value.isEmpty()) {
+    public UUIDv4(@NonNull String value) {
+        if (value.isBlank() || value.isEmpty()) {
             throw new DomainException("El UIID no deber ser nulo o vacío.");
         }
 
@@ -32,14 +31,7 @@ public class UUIDv4 {
     }
 
     @Override
-    public boolean equals(Object otro) {
-        if (otro == null || getClass() != otro.getClass()) return false;
-        UUIDv4 uuid = (UUIDv4) otro;
-        return Objects.equals(this._value, uuid._value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this._value);
+    public String value() {
+        return this.toString();
     }
 }

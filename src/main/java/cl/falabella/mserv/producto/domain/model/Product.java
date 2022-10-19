@@ -2,14 +2,11 @@ package cl.falabella.mserv.producto.domain.model;
 
 import cl.falabella.mserv.producto.domain.exception.ProductAlreadyExistException;
 import cl.falabella.mserv.producto.domain.repository.UniqueSKUSpecificationInterface;
-import cl.falabella.mserv.producto.domain.vo.Name;
-import cl.falabella.mserv.producto.domain.vo.Brand;
-import cl.falabella.mserv.producto.domain.vo.Price;
-import cl.falabella.mserv.producto.domain.vo.SKU;
-import cl.falabella.mserv.producto.domain.vo.Size;
+import cl.falabella.mserv.producto.domain.vo.*;
 import cl.falabella.mserv.producto.infrastructure.jpa.converter.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -22,8 +19,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Entity(name = "Product")
+@Entity
 @Table(name = "product")
+@ToString
 public class Product implements Serializable {
 
     @Id
@@ -50,13 +48,18 @@ public class Product implements Serializable {
 
     @NotNull(message = "El atributo SKU no puede ser vácio.")
     @Convert(converter = SKUAttributeConverter.class)
-    @Column(name = "sku", nullable = false, columnDefinition = "varchar(13)", length = 13, unique = true)
+    @Column(name = "sku", nullable = false, columnDefinition = "varchar(13)", length = 13)
     private SKU sku;
 
     @NotNull(message = "El atributo price no puede ser vácio.")
     @Convert(converter = PriceAttributeConverter.class)
     @Column(name = "price")
     private Price price;
+
+    @NotNull(message = "El atributo image no puede ser vácio.")
+    @Convert(converter = ImageAttributeConverter.class)
+    @Column(name = "image", nullable = false, columnDefinition = "varchar(255)")
+    private Image image;
 
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
@@ -73,6 +76,7 @@ public class Product implements Serializable {
             Size size,
             SKU sku,
             Price price,
+            Image image,
             UniqueSKUSpecificationInterface uniqueSKUSpecification
     ) {
 
@@ -87,6 +91,7 @@ public class Product implements Serializable {
         this.size = size;
         this.sku = sku;
         this.price = price;
+        this.image = image;
         this.createdAt = java.time.LocalDateTime.now();
     }
 
@@ -94,25 +99,14 @@ public class Product implements Serializable {
             Name name,
             Brand brand,
             Size size,
-            Price price
+            Price price,
+            Image image
     ) {
         this.name = name;
         this.brand = brand;
         this.size = size;
         this.price = price;
+        this.image = image;
         this.updatedAt = java.time.LocalDateTime.now();
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id.toString() +
-                ", name=" + name.toString() +
-                ", brand=" + brand.toString() +
-                ", size=" + size.toString() +
-                ", price=" + price.toString() +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
     }
 }

@@ -5,4 +5,6 @@ public interface ValueObject {
     public boolean equals(Object otro);
 
     public int hashCode();
+
+    public <T> T value();
 }

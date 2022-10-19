@@ -1,10 +1,13 @@
 package cl.falabella.mserv.producto.domain.model;
 
 import cl.falabella.mserv.producto.domain.vo.UUIDv4;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
-public class ProductId extends UUIDv4 {
+@EqualsAndHashCode(callSuper = true)
+public final class ProductId extends UUIDv4 {
 
-    public ProductId(String value) {
+    public ProductId(@NonNull String value) {
         super(value);
     }
 }

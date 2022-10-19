@@ -2,9 +2,8 @@
 
 ### Installation and Deployment
 
-* mvn clean
-* mvn install
-* java -jar target/mserv-producto-root-0.0.1-SNAPSHOT.jar
+* ./mvnw clean install
+* ./mvnw spring-boot:run
 
 ### Sandbox
 

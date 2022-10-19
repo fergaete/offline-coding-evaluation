@@ -1,30 +1,26 @@
 package cl.falabella.mserv.producto.domain.vo;
 
-import java.util.Objects;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
+@EqualsAndHashCode
+@ApiModel(description = "Size")
 public class Size implements ValueObject {
 
-    private final String _value;
+    @ApiModelProperty(notes = "_value")
+    private final @NonNull String _value;
 
-    public Size(String value) {
+    public Size(@NonNull String value) {
         this._value = value;
     }
 
+    @Override
+    public String toString() {  return this._value; }
 
     @Override
-    public String toString() {
-        return this._value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this._value);
-    }
-
-    @Override
-    public boolean equals(Object otro) {
-        if (otro == null || getClass() != otro.getClass()) return false;
-        Size size = (Size) otro;
-        return Objects.equals(this._value, size._value);
+    public String value() {
+        return this.toString();
     }
 }
